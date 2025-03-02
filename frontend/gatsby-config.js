@@ -1,9 +1,19 @@
-/**
- * @type {import('gatsby').GatsbyConfig}
- */
+//gatsby-config.js
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
+const strapiConfig = {
+  apiURL: process.env.STRAPI_API_URL || "http://localhost:1337",
+  collectionTypes: ["article", "category", "author"],
+};
+
 module.exports = {
-  siteMetadata: {
-    siteUrl: `https://www.yourdomain.tld`,
-  },
-  plugins: [],
-}
+  plugins: [
+    {
+      resolve: `gatsby-source-strapi`,
+      options: strapiConfig,
+    },
+    "gatsby-transformer-remark",
+  ],
+};
